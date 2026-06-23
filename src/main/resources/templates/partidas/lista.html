@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Partidas')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu}"></header>
+
+<main class="page">
+    <div class="page-title">
+        <div>
+            <h1>Partidas</h1>
+        </div>
+        <a class="primary-button" th:href="@{/partidas/novo}">Nova partida</a>
+    </div>
+
+    <section class="table-panel">
+        <table>
+            <thead>
+            <tr>
+                <th>Campeonato</th>
+                <th>Rodada</th>
+                <th>Data</th>
+                <th>Confronto</th>
+                <th>Placar</th>
+                <th>Status</th>
+                <th class="actions">Acoes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="partida : ${partidas.content}">
+                <td th:text="${partida.campeonato.nome}">Campeonato</td>
+                <td th:text="${partida.numeroRodada}">1</td>
+                <td th:text="${#temporals.format(partida.dataHora, 'dd/MM/yyyy HH:mm')}">01/01/2026 20:00</td>
+                <td th:text="${partida.mandante.nome + ' x ' + partida.visitante.nome}">A x B</td>
+                <td th:text="${partida.placarMandante == null || partida.placarVisitante == null ? '-' : partida.placarMandante + ' x ' + partida.placarVisitante}">-</td>
+                <td th:text="${partida.status.descricao}">Agendada</td>
+                <td class="actions">
+                    <a th:href="@{/partidas/editar/{id}(id=${partida.id})}">Editar</a>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/partidas/excluir/{id}(id=${partida.id})}">Excluir</a>
+                </td>
+            </tr>
+            <tr th:if="${partidas.empty}">
+                <td colspan="7" class="empty">Nenhuma partida cadastrada.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="pagination">
+        <a th:if="${partidas.hasPrevious()}" th:href="@{/partidas(page=${partidas.number - 1})}">Anterior</a>
+        <span th:text="${partidas.number + 1} + ' / ' + ${partidas.totalPages == 0 ? 1 : partidas.totalPages}">1 / 1</span>
+        <a th:if="${partidas.hasNext()}" th:href="@{/partidas(page=${partidas.number + 1})}">Proxima</a>
+    </div>
+</main>
+</body>
+</html>

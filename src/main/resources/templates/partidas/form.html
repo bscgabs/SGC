@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Partida')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu}"></header>
+
+<main class="page narrow">
+    <div class="page-title">
+        <div>
+            <h1 th:text="${partida.id == null ? 'Nova partida' : 'Editar partida'}">Partida</h1>
+        </div>
+    </div>
+
+    <form th:action="@{/partidas}" th:object="${partida}" method="post" class="form-panel">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="alert" th:if="${#fields.hasGlobalErrors()}" th:each="erro : ${#fields.globalErrors()}" th:text="${erro}"></div>
+
+        <label>
+            Campeonato
+            <select th:field="*{campeonato.id}" required>
+                <option value="">Selecione</option>
+                <option th:each="campeonato : ${campeonatos}" th:value="${campeonato.id}" th:text="${campeonato.nome}"></option>
+            </select>
+        </label>
+
+        <div class="two-columns">
+            <label>
+                Mandante
+                <select th:field="*{mandante.id}" required>
+                    <option value="">Selecione</option>
+                    <option th:each="equipe : ${equipes}" th:value="${equipe.id}" th:text="${equipe.nome}"></option>
+                </select>
+            </label>
+            <label>
+                Visitante
+                <select th:field="*{visitante.id}" required>
+                    <option value="">Selecione</option>
+                    <option th:each="equipe : ${equipes}" th:value="${equipe.id}" th:text="${equipe.nome}"></option>
+                </select>
+            </label>
+        </div>
+
+        <div class="two-columns">
+            <label>
+                Data e hora
+                <input type="datetime-local" th:field="*{dataHora}" required>
+                <span class="field-error" th:errors="*{dataHora}"></span>
+            </label>
+            <label>
+                Rodada
+                <input type="number" min="1" th:field="*{numeroRodada}" required>
+                <span class="field-error" th:errors="*{numeroRodada}"></span>
+            </label>
+        </div>
+
+        <label>
+            Local
+            <input type="text" th:field="*{local}" required>
+        </label>
+
+        <div class="three-columns">
+            <label>
+                Placar mandante
+                <input type="number" min="0" th:field="*{placarMandante}">
+            </label>
+            <label>
+                Placar visitante
+                <input type="number" min="0" th:field="*{placarVisitante}">
+            </label>
+            <label>
+                Status
+                <select th:field="*{status}" required>
+                    <option th:each="item : ${statusPartida}" th:value="${item}" th:text="${item.descricao}"></option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <a class="secondary-button" th:href="@{/partidas}">Cancelar</a>
+            <button type="submit" class="primary-button">Salvar</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

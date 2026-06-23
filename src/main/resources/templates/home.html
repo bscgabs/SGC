@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu}"></header>
+
+<main class="page">
+    <section class="hero">
+        <p class="eyebrow">Sistema de Gerenciamento de Campeonatos</p>
+        <h1>Controle de campeonatos, equipes e partidas</h1>
+    </section>
+
+    <section class="quick-grid" aria-label="Acessos principais">
+        <a class="quick-item" th:href="@{/campeonatos}">
+            <strong>Campeonatos</strong>
+            <span>Datas, responsaveis e relatorios</span>
+        </a>
+        <a class="quick-item" th:href="@{/equipes}">
+            <strong>Equipes</strong>
+            <span>Equipes participantes</span>
+        </a>
+        <a class="quick-item" th:href="@{/partidas}">
+            <strong>Partidas</strong>
+            <span>Placares e status</span>
+        </a>
+        <a class="quick-item" sec:authorize="hasRole('ADMIN')" th:href="@{/usuarios}">
+            <strong>Usuarios</strong>
+            <span>Perfis e acessos do sistema</span>
+        </a>
+    </section>
+</main>
+</body>
+</html>

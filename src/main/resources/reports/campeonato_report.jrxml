@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="campeonato_report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="515"
+              leftMargin="40"
+              rightMargin="40"
+              topMargin="30"
+              bottomMargin="30"
+              uuid="39b33767-078b-4b12-82fd-8742a8758c0d">
+    <parameter name="PARTIDAS_SUBREPORT" class="net.sf.jasperreports.engine.JasperReport"/>
+    <field name="nome" class="java.lang.String"/>
+    <field name="dataInicio" class="java.lang.String"/>
+    <field name="dataFim" class="java.lang.String"/>
+    <field name="responsavel" class="java.lang.String"/>
+    <field name="partidas" class="java.util.Collection"/>
+
+    <title>
+        <band height="90">
+            <staticText>
+                <reportElement x="0" y="0" width="515" height="34" forecolor="#13315C" uuid="6c16c5a7-8047-4ca0-9a93-05c91352d116"/>
+                <textElement>
+                    <font size="22" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Relatorio de Campeonato]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="42" width="515" height="25" uuid="06c0e7da-fdbb-42cf-9f53-499fb6a5ee3d"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <detail>
+        <band height="285">
+            <staticText>
+                <reportElement x="0" y="0" width="90" height="18" uuid="2f0ab4a0-9788-42ce-80cb-1bbf6f094bd8"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Periodo:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="95" y="0" width="250" height="18" uuid="7c8d1b8b-5d9a-4265-841a-018d606a9fd4"/>
+                <textFieldExpression><![CDATA[$F{dataInicio} + " a " + $F{dataFim}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="26" width="90" height="18" uuid="9e38544e-472c-4367-aa10-f7762736e63f"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Responsavel:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="95" y="26" width="250" height="18" uuid="2142d3ed-29be-47b9-8fef-b061cba7d632"/>
+                <textFieldExpression><![CDATA[$F{responsavel}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="64" width="515" height="22" forecolor="#13315C" uuid="e43a7a90-0399-4b9b-9814-769177f3e721"/>
+                <textElement>
+                    <font size="13" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Partidas finalizadas do campeonato]]></text>
+            </staticText>
+            <subreport>
+                <reportElement x="0" y="92" width="515" height="160" uuid="f8a0bb3a-b951-4f10-9f5f-c34ee41f55de"/>
+                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{partidas})]]></dataSourceExpression>
+                <subreportExpression><![CDATA[$P{PARTIDAS_SUBREPORT}]]></subreportExpression>
+            </subreport>
+        </band>
+    </detail>
+</jasperReport>
